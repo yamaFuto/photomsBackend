@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,9 @@ Route::get('/hello', function () {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post("/detailSave", [DetailController::class, "store"]);
+
+Route::get("/detail", [DetailController::class, "index"]);
+
+Route::get("/multipleDetail", [DetailController::class, "multipleIndex"]);

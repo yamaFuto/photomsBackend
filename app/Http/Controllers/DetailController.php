@@ -6,6 +6,7 @@ use App\Models\Detail;
 use Illuminate\Http\Request;
 use App\Models\Detial;
 use App\Models\Photo;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
@@ -29,7 +30,7 @@ class DetailController extends Controller
         foreach ($details as $detail) {
             $photo = Detail::find($detail->id)->photos;
 
-            $ans[] = $photo;
+            $ans[] = $photo[0];
         }
 
         return $ans;
@@ -51,7 +52,7 @@ class DetailController extends Controller
             $ans[] = $photo;
         }
 
-        return $ans;
+        return $photo;
     }
 
     /**
@@ -88,7 +89,7 @@ class DetailController extends Controller
                 $fileNameToStore = $fileName. '.' . $extension;
 
                 //resize
-                $resizedImage = Image::make($imageFile)->resize(1920,1080)->encode();
+                $resizedImage = Image::make($imageFile)->resize(1080,1080)->encode();
 
                 //s3へ格納
                 $path = Storage::disk('s3')->put("example/${fileNameToStore}", $resizedImage, 'public');
@@ -112,9 +113,15 @@ class DetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Detail $detail)
+    public function show(Request $request)
     {
-        //
+        $detail = new Detail();
+        $photo = new Photo();
+        $comment = new Comment();
+        $getDetail = $detail::where("id", "=", $request->detail_id)->get();
+        $getPhoto = $photo::where("detail_id", "=", $request->detail_id)->get();
+        $getComment = $comment::where("detail_id", "=", $request->detail_id)->get();
+        return [$getDetail, $getPhoto, $getComment];
     }
 
     /**

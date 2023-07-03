@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DetailController;
+use App\Http\Controllers\CommentController;
+use App\Models\Comment;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +29,14 @@ Route::post("/detailSave", [DetailController::class, "store"]);
 
 Route::get("/detail", [DetailController::class, "index"]);
 
+Route::get("getDetail", [DetailCOntroller::class, "show"]);
+
 Route::get("/multipleDetail", [DetailController::class, "multipleIndex"]);
+
+Route::post("/makeComment", [CommentController::class, "store"]);
+
+Route::post('/incrementGoods', function(Request $request) {
+    $Comment = Comment::find($request->id);
+    $Comment->goods += 1;
+    $Comment->save();
+});

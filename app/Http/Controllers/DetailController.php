@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Detail;
 use Illuminate\Http\Request;
-use App\Models\Detial;
+use App\Models\Detail;
 use App\Models\Photo;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Storage;
@@ -52,7 +51,7 @@ class DetailController extends Controller
             $ans[] = $photo;
         }
 
-        return $photo;
+        return $ans;
     }
 
     /**

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GenreController;
 use App\Models\Comment;
 
 /*
@@ -40,3 +41,7 @@ Route::post('/incrementGoods', function(Request $request) {
     $Comment->goods += 1;
     $Comment->save();
 });
+
+Route::get("/detailGenre", [GenreController::class, "detailGenre"]);
+
+Route::get("/multipleGenreDetail", [GenreController::class, "MultipleDetailGenre"]);

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\SearchController;
 use App\Models\Comment;
 
 /*
@@ -45,3 +46,7 @@ Route::post('/incrementGoods', function(Request $request) {
 Route::get("/detailGenre", [GenreController::class, "detailGenre"]);
 
 Route::get("/multipleGenreDetail", [GenreController::class, "MultipleDetailGenre"]);
+
+Route::get("/SearchDetail", [SearchController::class, "index"]);
+
+Route::get("/SearchMultipleDetail", [SearchController::class, "MultipleSearch"]);

@@ -50,3 +50,5 @@ Route::get("/multipleGenreDetail", [GenreController::class, "MultipleDetailGenre
 Route::get("/SearchDetail", [SearchController::class, "index"]);
 
 Route::get("/SearchMultipleDetail", [SearchController::class, "MultipleSearch"]);
+
+Route::get("detailGenreSearch", [SearchController::class, "Genre"]);

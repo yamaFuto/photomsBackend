@@ -166,4 +166,62 @@ class SearchController extends Controller
 
         return $ans;
     }
+
+    public function MultipleGenre(Request $request) {
+        $search = $request->search;
+        $genre = $request->genre;
+        $details = DB::table("details");
+        // whereHas('photos', function ($query) {
+        //     $query->select('detail_id')
+        //     ->selectRaw('SUM(sum) AS total_id')
+        //     ->groupBy('detail_id')
+        //     ->having('total_id', '=', 1);
+        // });
+
+        if ($search) {
+
+            if ($genre) {
+                $details->where("genre", "=", $genre);
+            }
+
+            $spaceConversion = mb_convert_kana($search, "s");
+
+            $wordArraySearched = preg_split('/[\s,]+/', $spaceConversion, -1, PREG_SPLIT_NO_EMPTY);
+
+            foreach($wordArraySearched as $value) {
+                $details->where(function($query) use($search, $genre) {
+                    $query->where('name', 'like', '%'.$search.'%')
+                          ->orWhere('photoname', 'like', '%'.$search.'%');
+                });
+            }
+
+            $SearchDetails = $details->get();
+
+            $ans = [];
+
+            foreach ($SearchDetails as $detail) {
+                $photo = Detail::find($detail->id)->photos;
+
+                if (count($photo) > 1) {
+                    $ans[] = $photo;
+                }
+            }
+
+        } else {
+
+            $SearchDetails = $details->get();
+
+            $ans = [];
+
+            foreach ($SearchDetails as $detail) {
+                $photo = Detail::find($detail->id)->photos;
+
+                if (count($photo) > 1) {
+                    $ans[] = $photo;
+                }
+            }
+        }
+
+        return $ans;
+    }
 }
